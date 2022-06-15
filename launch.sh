@@ -1,7 +1,11 @@
 #!/bin/bash
 
-PROTOCOL=$1
+if ! command -v jq &> /dev/null
+then
+    brew install jq
+fi
 
+PROTOCOL=$1
 RPC_URL=$(curl https://cosmos-chain.directory/chains/$PROTOCOL --silent | jq ".apis.rpc[0].address" -r)
 
 if [[ "$RPC_URL" != *"443"* ]]; then
